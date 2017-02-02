@@ -26,7 +26,7 @@ class Square extends React.Component {
 
 class Box extends React.Component {
   render(){
-      if(this.props.value === null){
+      if(this.props.value === 0){
         return (
        <button className="NullBox">
           <div className="Value">{this.props.value}</div>
@@ -63,17 +63,17 @@ class Board extends React.Component {
   constructor(props){
     super(props);
     this.state={
-      box_squares:[
-              [[0,0],[0,1],[0,2][0,3]],
-              [[1,0],[1,1],[1,2][1,3]],
-              [[2,0],[2,1],[2,2][2,3]],
-              [[3,0],[3,1],[3,2][3,3]],
-            ],
-      boxes:[
+      squares:[
               [[0,0],[0,1],[0,2],[0,3]],
               [[1,0],[1,1],[1,2],[1,3]],
               [[2,0],[2,1],[2,2],[2,3]],
               [[3,0],[3,1],[3,2],[3,3]],
+            ],
+      boxes:[
+              [Array(4).fill(null)],
+              [Array(4).fill(null)],
+              [Array(4).fill(null)],
+              [Array(4).fill(null)],
             ],
       emptySquare: [3,3],
 
@@ -82,60 +82,42 @@ class Board extends React.Component {
   }
 
   handleClick(x,y){
-    var xEmptySquareCoor = this.state.emptySquare[0]
-    var yEmptySquareCoor = this.state.emptySquare[1]
-    console.log('coord ' + yEmptySquareCoor +  ' ' + xEmptySquareCoor);
-    console.log('coord ' + y +  ' ' + x);
-    var i;
-    var arr; var temp;
-    var tempBox = this.state.boxes;
-    console.log(tempBox);
-    if(x !== xEmptySquareCoor && y !== yEmptySquareCoor){
-      //do nothing
-      console.log('no action')
-    } else if (x === xEmptySquareCoor && y === yEmptySquareCoor) {
-      //do nothing
-      console.log('clicked on null')
-    } else if (y === yEmptySquareCoor) {
-        if (x < xEmptySquareCoor){
-          arr = range(x,xEmptySquareCoor).reverse();
-        } else {
-          arr = range(x,xEmptySquareCoor);
-        }
-        console.log('arr: ' + arr + ' ' +arr.length)
-        for(i=0; i < arr.length-1; i++ ){
-          temp = tempBox[arr[i]][y];
-          tempBox[arr[i]][y] = tempBox[arr[i+1]][y];
-          tempBox[arr[i+1]][y] = temp;
-          
-        }
-        //temporary work around
-        this.setState({emptySquare: [x,y], boxes:tempBox});
-    } else if (x === xEmptySquareCoor){
-        console.log('x aligned')
-        if (y < yEmptySquareCoor){
-          arr = range(y,yEmptySquareCoor).reverse();
-        } else {
-          arr = range(y,yEmptySquareCoor);
-        }
+    var empty = this.state.emptySquare;
+    var temp = this.state.boxes.slice();
+    console.log(empty);
+    if(x !== empty[0] && y !== empty[1]){
+      console.log('do nothing')
+    } else if (y === empty[1]){
+      //shift down
+      console.log('shift down along x');
+      var tempEmpt = temp[empty[0]][y]; 
 
-        for(i=0; i < arr.length-1; i++ ){
-          temp = tempBox[x][arr[i]];
-          tempBox[x][arr[i+1]] = tempBox[x][arr[i+1]];
-          tempBox[x][arr[i+1]] = temp;
-        
-        } 
-            
 
-      }
+    
+
+    } else if (x === empty[0]){
+      //shift right or left
+      console.log('shift across y');
+      console.log(temp[x]);
+      var tempEmpt = temp[x][empty[1]]; 
+      temp[x].splice(empty[1],1);
+      temp[x].splice(y, 0, tempEmpt);
+      console.log(temp[x]);
+
+    } else {
+      console.log('unexpected')
 
 
 
+
+    }
+    
+    this.setState({boxes: temp, emptySquare: [x,y], });
   }
 
 
   shuffleBoxCount(array){
-    var i; var temp;var val;
+    var i; var temp; var val;
     for(i = 0; i < array.length; i++){
       val = Math.floor(Math.random() * array.length);
       temp = array[i];
@@ -151,14 +133,13 @@ class Board extends React.Component {
     
 
     this.shuffleBoxCount(boxList);
-    console.log(boxList);
-    boxList.push(null);
-    console.log(temp)
-    var temp = this.state.boxes;
+    boxList.push(0);
+
+    var temp = this.state.boxes.slice();
     for(i=0; i < 4; i++){
       for(j=0; j< 4; j++){
-        console.log(temp);
-        temp[i][j].push(boxList[count]);
+        console.log(boxList);
+        temp[i][j] = boxList[count];
         count++;
       }
     }
@@ -179,29 +160,29 @@ class Board extends React.Component {
       <div className='Game'>
       <div className="Title">15 Puzzle</div>
       <div className="board">
-        <div className="gameRow">
-          {this.renderSquare(this.state.boxes[0][0][0],this.state.boxes[0][0][1], this.state.boxes[0][0][2])}
-          {this.renderSquare(this.state.boxes[0][1][0],this.state.boxes[0][1][1], this.state.boxes[0][1][2])}
-          {this.renderSquare(this.state.boxes[0][2][0],this.state.boxes[0][2][1], this.state.boxes[0][2][2])}
-          {this.renderSquare(this.state.boxes[0][3][0],this.state.boxes[0][3][1], this.state.boxes[0][3][2])}
+        <div className="gameRow">          
+          {this.renderSquare(0,0, this.state.boxes[0][0])}
+          {this.renderSquare(0,1, this.state.boxes[0][1])}
+          {this.renderSquare(0,2, this.state.boxes[0][2])}
+          {this.renderSquare(0,3, this.state.boxes[0][3])}
         </div>
         <div className="gameRow">
-          {this.renderSquare(this.state.boxes[1][0][0],this.state.boxes[1][0][1], this.state.boxes[1][0][2])}
-          {this.renderSquare(this.state.boxes[1][1][0],this.state.boxes[1][1][1], this.state.boxes[1][1][2])}
-          {this.renderSquare(this.state.boxes[1][2][0],this.state.boxes[1][2][1], this.state.boxes[1][2][2])}
-          {this.renderSquare(this.state.boxes[1][3][0],this.state.boxes[1][3][1], this.state.boxes[1][3][2])}
+         {this.renderSquare(1,0, this.state.boxes[1][0])}
+          {this.renderSquare(1,1, this.state.boxes[1][1])}
+         {this.renderSquare(1,2, this.state.boxes[1][2])}
+          {this.renderSquare(1,3, this.state.boxes[1][3])}
         </div>
         <div className="gameRow">
-          {this.renderSquare(this.state.boxes[2][0][0],this.state.boxes[2][0][1], this.state.boxes[2][0][2])}
-          {this.renderSquare(this.state.boxes[2][1][0],this.state.boxes[2][1][1], this.state.boxes[2][1][2])}
-          {this.renderSquare(this.state.boxes[2][2][0],this.state.boxes[2][2][1], this.state.boxes[2][2][2])}
-          {this.renderSquare(this.state.boxes[2][3][0],this.state.boxes[2][3][1], this.state.boxes[2][3][2])}
+         {this.renderSquare(2,0, this.state.boxes[2][0])}
+          {this.renderSquare(2,1, this.state.boxes[2][1])}
+          {this.renderSquare(2,2, this.state.boxes[2][2])}
+          {this.renderSquare(2,3, this.state.boxes[2][3])}
         </div>
         <div className="gameRow">
-          {this.renderSquare(this.state.boxes[3][0][0],this.state.boxes[3][0][1], this.state.boxes[3][0][2])}
-          {this.renderSquare(this.state.boxes[3][1][0],this.state.boxes[3][1][1], this.state.boxes[3][1][2])}
-          {this.renderSquare(this.state.boxes[3][2][0],this.state.boxes[3][2][1], this.state.boxes[3][2][2])}
-          {this.renderSquare(this.state.boxes[3][3][0],this.state.boxes[3][3][1], this.state.boxes[3][3][2])}
+         {this.renderSquare(3,0, this.state.boxes[3][0])}
+           {this.renderSquare(3,1, this.state.boxes[3][1])}
+           {this.renderSquare(3,2, this.state.boxes[3][2])}
+           {this.renderSquare(3,3, this.state.boxes[3][3])}
         </div>
 
     </div>
@@ -237,8 +218,36 @@ function range(start, end){
 }
 
 
+function shiftLeft(array, index1, index2){
+  var newArray = array.slice()
+  var arr = array.slice(index1,index2+1);
+  var i;
+  arr[arr.length-1][1] = index1;
+  for(i = 0; i < (index2-index1); i++){
+    console.log(arr[i]);
+    arr[i][1] +=1
+  }
+    
+  newArray= newArray.slice(0,index1).concat(arr);
+  return newArray
 
 
+}
+
+// function shiftRight(array, index1,index2){
+//   var newArray = array.slice();
+//   var arr = array.slice(index1,index2+1);
+//   arr[0][1] = y;
+//   for(i = 0; i < (index2-index1); i++){
+//     console.log(arr[i]);
+//     arr[i][1] +=1
+//   }
+    
+//   newArray= newArray.slice(0,index1).concat(arr);
+//   return newArray
+
+
+// }
 
 
 
