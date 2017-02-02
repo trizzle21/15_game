@@ -1,24 +1,57 @@
 /* In descending size*/
 .Title{
   text-align: center;
+  font-size: 36px;
+  color: #536DFE;
+  margin:10px 0 10px 0;
 }
 
 
 .board {
   margin: 0 auto;
-  width:600px;
+  width: 600px;
   height: 600px;
   background-color: white;
   border:2px solid;
-
 }
 
 
 
 .gameRow {
-  display:inline-block;
-  width:500px;
+  width: 100%;
   height:150px;
 }
 
+.Square{
+  display:inline-block;
+  color: white;
+  height: 150px;
+  width: 150px;
+  padding:0; margin:0;
+}
 
+.Box {
+  display:inline-block; 
+  height: 150px;
+  width: 150px;
+  background-color: #536DFE;
+  border:2px solid white;
+  padding:0; margin:0;
+}
+
+.NullBox {
+  display:inline-block;
+  opacity: 0.0;
+
+  padding:0; margin:0;
+
+}
+
+
+
+
+.Value{
+  text-align: center;
+  color:white;
+  font-size: 36px;
+}
