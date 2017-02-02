@@ -26,19 +26,20 @@ class Square extends React.Component {
 
 class Box extends React.Component {
   render(){
-      if(this.props.value === null){
+      if(this.props.value === 0){
         return (
        <button className="NullBox">
-          <div className="Value">{this.props.value}</div>
+         <div className="Value" onClick={this.props.onClick}>{this.props.value}</div>
 
        </button>
         );
+      } else {
+        return (
+        <button className="Box">
+           <div className="Value" onClick={this.props.onClick}>{this.props.value}</div>
+         </button>
+        );
       }
-      return (
-       <button className="Box">
-          <div className="Value" onClick={this.props.onClick}>{this.props.value}</div>
-       </button>
-      );
     }
 }
 
@@ -63,12 +64,6 @@ class Board extends React.Component {
   constructor(props){
     super(props);
     this.state={
-      box_squares:[
-              [[0,0],[0,1],[0,2][0,3]],
-              [[1,0],[1,1],[1,2][1,3]],
-              [[2,0],[2,1],[2,2][2,3]],
-              [[3,0],[3,1],[3,2][3,3]],
-            ],
       boxes:[
               [[0,0],[0,1],[0,2],[0,3]],
               [[1,0],[1,1],[1,2],[1,3]],
@@ -87,46 +82,31 @@ class Board extends React.Component {
     console.log('coord ' + yEmptySquareCoor +  ' ' + xEmptySquareCoor);
     console.log('coord ' + y +  ' ' + x);
     var i;
-    var arr; var temp;
-    var tempBox = this.state.boxes;
-    console.log(tempBox);
+    var arr; 
+    var tempBox= this.state.boxes.slice();
     if(x !== xEmptySquareCoor && y !== yEmptySquareCoor){
       //do nothing
       console.log('no action')
     } else if (x === xEmptySquareCoor && y === yEmptySquareCoor) {
       //do nothing
-      console.log('clicked on null')
+      console.log('clicked on 0')
     } else if (y === yEmptySquareCoor) {
-        if (x < xEmptySquareCoor){
-          arr = range(x,xEmptySquareCoor).reverse();
-        } else {
-          arr = range(x,xEmptySquareCoor);
-        }
-        console.log('arr: ' + arr + ' ' +arr.length)
+        console.log('y')
+        console.log(tempBox);
+        arr = range(xEmptySquareCoor,x);
         for(i=0; i < arr.length-1; i++ ){
-          temp = tempBox[arr[i]][y];
-          tempBox[arr[i]][y] = tempBox[arr[i+1]][y];
-          tempBox[arr[i+1]][y] = temp;
-          
         }
+        console.log(tempBox);
         //temporary work around
         this.setState({emptySquare: [x,y], boxes:tempBox});
     } else if (x === xEmptySquareCoor){
-        console.log('x aligned')
-        if (y < yEmptySquareCoor){
-          arr = range(y,yEmptySquareCoor).reverse();
+        if(y < yEmptySquareCoor) {
+          //shift right
+          tempBox[x] = ShiftRight(tempBox, y, yEmptySquareCoor);
         } else {
-          arr = range(y,yEmptySquareCoor);
+          tempBox[x] = ShiftLeft(tempBox, yEmptySquareCoor, y);
         }
-
-        for(i=0; i < arr.length-1; i++ ){
-          temp = tempBox[x][arr[i]];
-          tempBox[x][arr[i+1]] = tempBox[x][arr[i+1]];
-          tempBox[x][arr[i+1]] = temp;
-        
-        } 
-            
-
+        this.setState({emptySquare: [x,y], boxes:tempBox});        
       }
 
 
@@ -151,13 +131,11 @@ class Board extends React.Component {
     
 
     this.shuffleBoxCount(boxList);
-    console.log(boxList);
-    boxList.push(null);
-    console.log(temp)
-    var temp = this.state.boxes;
+    boxList.push(0);
+    var temp = this.state.boxes.slice();
+    
     for(i=0; i < 4; i++){
       for(j=0; j< 4; j++){
-        console.log(temp);
         temp[i][j].push(boxList[count]);
         count++;
       }
@@ -175,33 +153,34 @@ class Board extends React.Component {
             );
   }
   render(){
+    console.log(this.state.boxes[3][3][2]);
     return(
       <div className='Game'>
       <div className="Title">15 Puzzle</div>
       <div className="board">
         <div className="gameRow">
-          {this.renderSquare(this.state.boxes[0][0][0],this.state.boxes[0][0][1], this.state.boxes[0][0][2])}
-          {this.renderSquare(this.state.boxes[0][1][0],this.state.boxes[0][1][1], this.state.boxes[0][1][2])}
-          {this.renderSquare(this.state.boxes[0][2][0],this.state.boxes[0][2][1], this.state.boxes[0][2][2])}
-          {this.renderSquare(this.state.boxes[0][3][0],this.state.boxes[0][3][1], this.state.boxes[0][3][2])}
+          {this.renderSquare(this.state.boxes[0][0][0], this.state.boxes[0][0][1], this.state.boxes[0][0][2])}
+          {this.renderSquare(this.state.boxes[0][1][0], this.state.boxes[0][1][1], this.state.boxes[0][1][2])}
+          {this.renderSquare(this.state.boxes[0][2][0], this.state.boxes[0][2][1], this.state.boxes[0][2][2])}
+          {this.renderSquare(this.state.boxes[0][3][0], this.state.boxes[0][3][1], this.state.boxes[0][3][2])}
         </div>
         <div className="gameRow">
-          {this.renderSquare(this.state.boxes[1][0][0],this.state.boxes[1][0][1], this.state.boxes[1][0][2])}
-          {this.renderSquare(this.state.boxes[1][1][0],this.state.boxes[1][1][1], this.state.boxes[1][1][2])}
-          {this.renderSquare(this.state.boxes[1][2][0],this.state.boxes[1][2][1], this.state.boxes[1][2][2])}
-          {this.renderSquare(this.state.boxes[1][3][0],this.state.boxes[1][3][1], this.state.boxes[1][3][2])}
+          {this.renderSquare(this.state.boxes[1][0][0], this.state.boxes[1][0][1], this.state.boxes[1][0][2])}
+          {this.renderSquare(this.state.boxes[1][1][0], this.state.boxes[1][1][1], this.state.boxes[1][1][2])}
+          {this.renderSquare(this.state.boxes[1][2][0], this.state.boxes[1][2][1], this.state.boxes[1][2][2])}
+          {this.renderSquare(this.state.boxes[1][3][0], this.state.boxes[1][3][1], this.state.boxes[1][3][2])}
         </div>
         <div className="gameRow">
-          {this.renderSquare(this.state.boxes[2][0][0],this.state.boxes[2][0][1], this.state.boxes[2][0][2])}
-          {this.renderSquare(this.state.boxes[2][1][0],this.state.boxes[2][1][1], this.state.boxes[2][1][2])}
-          {this.renderSquare(this.state.boxes[2][2][0],this.state.boxes[2][2][1], this.state.boxes[2][2][2])}
-          {this.renderSquare(this.state.boxes[2][3][0],this.state.boxes[2][3][1], this.state.boxes[2][3][2])}
+          {this.renderSquare(this.state.boxes[2][0][0], this.state.boxes[2][0][1], this.state.boxes[2][0][2])}
+          {this.renderSquare(this.state.boxes[2][1][0], this.state.boxes[2][1][1], this.state.boxes[2][1][2])}
+          {this.renderSquare(this.state.boxes[2][2][0], this.state.boxes[2][2][1], this.state.boxes[2][2][2])}
+          {this.renderSquare(this.state.boxes[2][3][0], this.state.boxes[2][3][1], this.state.boxes[2][3][2])}
         </div>
         <div className="gameRow">
-          {this.renderSquare(this.state.boxes[3][0][0],this.state.boxes[3][0][1], this.state.boxes[3][0][2])}
-          {this.renderSquare(this.state.boxes[3][1][0],this.state.boxes[3][1][1], this.state.boxes[3][1][2])}
-          {this.renderSquare(this.state.boxes[3][2][0],this.state.boxes[3][2][1], this.state.boxes[3][2][2])}
-          {this.renderSquare(this.state.boxes[3][3][0],this.state.boxes[3][3][1], this.state.boxes[3][3][2])}
+          {this.renderSquare(this.state.boxes[3][0][0], this.state.boxes[3][0][1], this.state.boxes[3][0][2])}
+          {this.renderSquare(this.state.boxes[3][1][0], this.state.boxes[3][1][1], this.state.boxes[3][1][2])}
+          {this.renderSquare(this.state.boxes[3][2][0], this.state.boxes[3][2][1], this.state.boxes[3][2][2])}
+          {this.renderSquare(this.state.boxes[3][3][0], this.state.boxes[3][3][1], this.state.boxes[3][3][2])}
         </div>
 
     </div>
@@ -237,9 +216,19 @@ function range(start, end){
 }
 
 
-
-
-
-
+function ShiftRight(array, index1, index2){
+  var newArray;
+  var subArray = array.slice(index1,index2);
+  subArray.unshift(subArray.pop());
+  newArray = array.slice(0,index1).concat(subArray);
+  return newArray;
+}
+function ShiftLeft(array, index1, index2){
+  var newArray;
+  var subArray = array.slice(index1,index2);
+  subArray.push(subArray.shift())
+  newArray = array.slice(0,index1).concat(subArray);
+  return newArray;
+}
 
 export default Board;
