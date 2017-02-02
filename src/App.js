@@ -4,24 +4,14 @@ import './App.css';
 
 
 class Square extends React.Component {
-  constructor(props){
-    super(props);
-    this.state={
-      xValue:this.props.xValue,
-      yValue:this.props.yValue,
-    }
-  }
-  
   render(){
       return (
-       <div className="Square">
+       <div className="Square" onClick={this.props.onClick}>
           {this.props.children}
        </div>
       );
     }
 }
-
-
 
 
 class Box extends React.Component {
@@ -36,70 +26,40 @@ class Box extends React.Component {
       }
       return (
        <button className="Box">
-          <div className="Value" onClick={this.props.onClick}>{this.props.value}</div>
+          <div className="Value">{this.props.value}</div>
        </button>
       );
     }
 }
 
-
-
-
-
-/*
-boxes = [
-              [Array(4).fill(null)],
-              [Array(4).fill(null)],
-              [Array(4).fill(null)],
-              [Array(4).fill(null)],
-            ]
-*/
-
-//To move blocks, take clicked box into stack,
-
-
-
 class Board extends React.Component {
   constructor(props){
     super(props);
     this.state={
-      squares:[
-              [[0,0],[0,1],[0,2],[0,3]],
-              [[1,0],[1,1],[1,2],[1,3]],
-              [[2,0],[2,1],[2,2],[2,3]],
-              [[3,0],[3,1],[3,2],[3,3]],
-            ],
       boxes:[
               [Array(4).fill(null)],
               [Array(4).fill(null)],
               [Array(4).fill(null)],
               [Array(4).fill(null)],
             ],
-      emptySquare: [3,3],
-
-      
+      emptySquare: [3,3],  
     }
   }
 
   handleClick(x,y){
     var empty = this.state.emptySquare;
     var temp = this.state.boxes.slice();
-    console.log(empty);
     var i; var tempEmpt;
     if(x !== empty[0] && y !== empty[1]){
-      console.log('do nothing')
     } else if (y === empty[1]){
       //shift down
-      console.log('shift down along x');
       tempEmpt = temp[empty[0]][y]; 
-      //check if shift down
+      //check shift direction
       if(empty[0] >  x){
         //shift down
-        //temp[empty[0]][y].pop()
         for(i = empty[0]; i > x; i--){
           temp[i][y]= temp[i-1][y];
         }
-        
       } else {
         //shift up
         for(i = empty[0]; i < x; i++){
@@ -107,9 +67,7 @@ class Board extends React.Component {
         }      
 
       }
-
-    
-      temp[x][y] = tempEmpt;
+    temp[x][y] = tempEmpt;
     this.setState({boxes: temp, emptySquare: [x,y], });
 
     } else if (x === empty[0]){
@@ -119,11 +77,8 @@ class Board extends React.Component {
       temp[x].splice(y, 0, tempEmpt);
       this.setState({boxes: temp, emptySquare: [x,y], });
     } else {
-      console.log('unexpected')
-
-
-
-
+      //debugging:
+      //console.log('unexpected')
     }
     
   }
@@ -151,7 +106,6 @@ class Board extends React.Component {
     var temp = this.state.boxes.slice();
     for(i=0; i < 4; i++){
       for(j=0; j< 4; j++){
-        console.log(boxList);
         temp[i][j] = boxList[count];
         count++;
       }
@@ -160,11 +114,10 @@ class Board extends React.Component {
   }
   
 
-//this.handleClick(x,y) 
 
   renderSquare(x,y,value){
-    return (<Square xValue={x} yValue={y} >
-              <Box value={value} onClick={() => { this.handleClick(x,y)  } }/>
+    return (<Square xValue={x} yValue={y} onClick={() => { this.handleClick(x,y)  } }>
+              <Box value={value} />
             </Square>
             );
   }
@@ -205,62 +158,6 @@ class Board extends React.Component {
 
 
 }
-
-
-
-
-
-
-
-function range(start, end){
-  var arr = [];
-  var i;
-  if(start < end){
-    for(i= start; i <= end; i++) {
-      arr.push(i);
-    }
-  } else if (start > end) {
-    for(i=start; i >= end; i--) {
-      arr.push(i);
-    }
-  } else {
-      return [start];
-  }
-    return arr;
-
-}
-
-
-function shiftLeft(array, index1, index2){
-  var newArray = array.slice()
-  var arr = array.slice(index1,index2+1);
-  var i;
-  arr[arr.length-1][1] = index1;
-  for(i = 0; i < (index2-index1); i++){
-    console.log(arr[i]);
-    arr[i][1] +=1
-  }
-    
-  newArray= newArray.slice(0,index1).concat(arr);
-  return newArray
-
-
-}
-
-// function shiftRight(array, index1,index2){
-//   var newArray = array.slice();
-//   var arr = array.slice(index1,index2+1);
-//   arr[0][1] = y;
-//   for(i = 0; i < (index2-index1); i++){
-//     console.log(arr[i]);
-//     arr[i][1] +=1
-//   }
-    
-//   newArray= newArray.slice(0,index1).concat(arr);
-//   return newArray
-
-
-// }
 
 
 
