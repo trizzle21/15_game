@@ -85,25 +85,39 @@ class Board extends React.Component {
     var empty = this.state.emptySquare;
     var temp = this.state.boxes.slice();
     console.log(empty);
+    var i; var tempEmpt;
     if(x !== empty[0] && y !== empty[1]){
       console.log('do nothing')
     } else if (y === empty[1]){
       //shift down
       console.log('shift down along x');
-      var tempEmpt = temp[empty[0]][y]; 
+      tempEmpt = temp[empty[0]][y]; 
+      //check if shift down
+      if(empty[0] >  x){
+        //shift down
+        //temp[empty[0]][y].pop()
+        for(i = empty[0]; i > x; i--){
+          temp[i][y]= temp[i-1][y];
+        }
+        
+      } else {
+        //shift up
+        for(i = empty[0]; i < x; i++){
+          temp[i][y]= temp[i+1][y];
+        }      
 
+      }
 
     
+      temp[x][y] = tempEmpt;
+    this.setState({boxes: temp, emptySquare: [x,y], });
 
     } else if (x === empty[0]){
       //shift right or left
-      console.log('shift across y');
-      console.log(temp[x]);
-      var tempEmpt = temp[x][empty[1]]; 
+      tempEmpt = temp[x][empty[1]]; 
       temp[x].splice(empty[1],1);
       temp[x].splice(y, 0, tempEmpt);
-      console.log(temp[x]);
-
+      this.setState({boxes: temp, emptySquare: [x,y], });
     } else {
       console.log('unexpected')
 
@@ -112,7 +126,6 @@ class Board extends React.Component {
 
     }
     
-    this.setState({boxes: temp, emptySquare: [x,y], });
   }
 
 
