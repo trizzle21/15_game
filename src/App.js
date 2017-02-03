@@ -46,6 +46,19 @@ class Board extends React.Component {
     }
   }
 
+
+  AStarSearch(){
+    //TODO
+    console.log("Feature in Progress");
+  }
+
+
+
+
+
+
+
+
   handleClick(x,y){
     var empty = this.state.emptySquare;
     var temp = this.state.boxes.slice();
@@ -94,6 +107,8 @@ class Board extends React.Component {
     }
   }
 
+
+
   componentWillMount(){
     var boxList= [...Array(15).keys()].map(function(i) {return i+1});
     var count = 0;
@@ -124,6 +139,7 @@ class Board extends React.Component {
   render(){
     return(
       <div className='Game'>
+      <a href="/Projects">Return to Projects</a>
       <div className="Title">15 Puzzle</div>
       <div className="board">
         <div className="gameRow">          
@@ -152,6 +168,11 @@ class Board extends React.Component {
         </div>
 
     </div>
+      <br />
+      <div 
+        className="AStarSearch"
+        onClick={()=>this.AStarSearch()}
+      > A* Search </div>
     </div>
 
   )}
