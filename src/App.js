@@ -43,6 +43,7 @@ class Board extends React.Component {
               [Array(4).fill(null)],
             ],
       emptySquare: [3,3],  
+      won:null,
     }
   }
 
@@ -54,7 +55,18 @@ class Board extends React.Component {
 
 
 
-
+  checkIfWon(){
+    var winning = [
+      [1,2,3,4],
+      [5,6,7,8],
+      [9,10,11,12],
+      [13,14,15,0],
+    ];
+    if(winning === this.state.boxes){
+      return true;
+    }
+    return false;
+  }
 
 
 
@@ -63,6 +75,9 @@ class Board extends React.Component {
     var empty = this.state.emptySquare;
     var temp = this.state.boxes.slice();
     var i; var tempEmpt;
+    if(this.checkIfWon()){
+      this.setState({won: "You've Won"});
+    }
     if(x !== empty[0] && y !== empty[1]){
     } else if (y === empty[1]){
       //shift down
@@ -173,7 +188,11 @@ class Board extends React.Component {
         className="AStarSearch"
         onClick={()=>this.AStarSearch()}
       > A* Search </div>
+      <div className="winning">{this.state.won}</div>
+
+
     </div>
+
 
   )}
 
