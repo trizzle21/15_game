@@ -62,14 +62,14 @@ class Board extends React.Component {
       [9,10,11,12],
       [13,14,15,0],
     ];
-    if(winning === this.state.boxes){
-      return true;
+    for(var i = winning.length; i--;){
+      if(winning[i] !== this.state.boxes[i]){
+        return false;
+      }
+
     }
-    return false;
+    return true;
   }
-
-
-
 
   handleClick(x,y){
     var empty = this.state.emptySquare;
