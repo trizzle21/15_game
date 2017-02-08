@@ -66,7 +66,6 @@ class Board extends React.Component {
       if(winning[i] !== this.state.boxes[i]){
         return false;
       }
-
     }
     return true;
   }
