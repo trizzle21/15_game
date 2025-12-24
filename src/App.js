@@ -123,7 +123,7 @@ class Board extends React.Component {
 
 
 
-  componentWillMount(){
+  componentDidMount(){
     var boxList= [...Array(15).keys()].map(function(i) {return i+1});
     var count = 0;
     var i; var j;
