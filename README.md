@@ -2,7 +2,7 @@
 
 ![15 Puzzle demo](15PuzzleDemo.gif)
 
-Classic 15-puzzle built with React.
+Classic 15-puzzle built with React. I built this before AI was a thing as part of an interview and it really itched my programming itch. I've since then cleaned up the CSS, updated the packages and fixed the documentation.
 
 ## Getting Started
 
