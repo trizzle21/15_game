@@ -95,32 +95,11 @@
   letter-spacing: 0.02em;
 }
 
-/* Controls */
-.AStarSearch {
-  cursor: pointer;
-  padding: 10px 16px;
-  width: fit-content;
-  border-radius: 999px;
-  border: 2px solid var(--accent);
-  color: var(--accent);
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  margin: 20px auto 10px;
-  transition: background 150ms ease, color 150ms ease;
-}
-
-.AStarSearch:hover {
-  background: var(--accent);
-  color: #ffffff;
-}
-
 .winning {
   margin-top: 8px;
   color: var(--accent-dark);
   font-weight: 700;
 }
-
 
 
 
