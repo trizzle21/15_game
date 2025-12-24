@@ -1,5 +1,25 @@
+:root {
+  --bg-start: #f8f5f0;
+  --bg-end: #e7eef6;
+  --panel: #ffffff;
+  --ink: #1e2530;
+  --muted: #5b6b7d;
+  --accent: #2b6cb0;
+  --accent-dark: #1f4f80;
+  --tile: #1f2937;
+  --tile-shadow: rgba(17, 24, 39, 0.2);
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
 body {
   margin: 0;
-  padding: 0;
-  font-family: sans-serif;
+  min-height: 100vh;
+  font-family: "Avenir Next", "Avenir", "Montserrat", "Trebuchet MS", sans-serif;
+  color: var(--ink);
+  background: linear-gradient(135deg, var(--bg-start), var(--bg-end));
 }

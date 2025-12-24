@@ -7,10 +7,15 @@
     "react-dom": "^18.2.0",
     "react-scripts": "5.0.1"
   },
+  "devDependencies": {
+    "eslint": "^8.57.1",
+    "eslint-config-react-app": "^7.0.1"
+  },
   "homepage": "http://tylerdross.com/15_Game",
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
+    "lint": "eslint src",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },

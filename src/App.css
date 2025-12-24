@@ -1,68 +1,125 @@
-/* In descending size*/
-.Title{
+/* Layout */
+.Game {
+  max-width: 760px;
+  margin: 0 auto;
+  padding: 40px 20px 56px;
   text-align: center;
-  font-size: 36px;
-  color: #536DFE;
-  margin:10px 0 10px 0;
 }
 
+.Game a {
+  display: inline-block;
+  margin-bottom: 18px;
+  text-decoration: none;
+  color: var(--muted);
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
+
+.Game a:hover {
+  color: var(--ink);
+}
+
+.Title {
+  text-align: center;
+  font-size: 40px;
+  color: var(--accent);
+  margin: 6px 0 20px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
 
 .board {
   margin: 0 auto;
-  width: 600px;
-  height: 600px;
-  background-color: white;
-  border:2px solid;
+  width: min(92vw, 520px);
+  padding: 16px;
+  background: var(--panel);
+  border-radius: 24px;
+  box-shadow: 0 20px 50px rgba(32, 41, 53, 0.18);
 }
 
 .gameRow {
-  width: 100%;
-  height:150px;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 12px;
+  margin-bottom: 12px;
 }
 
+.gameRow:last-child {
+  margin-bottom: 0;
+}
 
+.Square {
+  display: block;
+  width: 100%;
+}
 
-.Square{
-  display:inline-block;
-  color: white;
-  height: 150px;
-  width: 150px;
-  padding:0; margin:0;
+/* Tiles */
+.Box,
+.NullBox {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  border-radius: 16px;
+  border: 2px solid transparent;
+  padding: 0;
+  margin: 0;
 }
 
 .Box {
-  display:inline-block; 
-  height: 150px;
-  width: 150px;
-  background-color: #536DFE;
-  border:2px solid white;
-  padding:0; margin:0;
+  background: linear-gradient(145deg, #273447, var(--tile));
+  color: #f8fafc;
+  box-shadow: 0 10px 20px var(--tile-shadow);
+  cursor: pointer;
+  transition: transform 120ms ease, box-shadow 120ms ease;
+}
+
+.Box:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 14px 24px rgba(17, 24, 39, 0.28);
+}
+
+.Box:active {
+  transform: translateY(1px);
+  box-shadow: 0 8px 16px rgba(17, 24, 39, 0.2);
 }
 
 .NullBox {
-  display:inline-block;
-  opacity: 0.0;
-
-  padding:0; margin:0;
-
+  background: transparent;
+  opacity: 0;
+  pointer-events: none;
 }
 
-.Value{
+.Value {
   text-align: center;
-  color:white;
-  font-size: 36px;
+  font-size: clamp(22px, 6vw, 36px);
+  font-weight: 700;
+  letter-spacing: 0.02em;
 }
 
-/* Aethestics */
+/* Controls */
 .AStarSearch {
-  cursor:pointer;
-  padding: 5px;
-  width:80px;
-  border: 2px solid;
-  text-align: center;
-  margin: 0 auto;
+  cursor: pointer;
+  padding: 10px 16px;
+  width: fit-content;
+  border-radius: 999px;
+  border: 2px solid var(--accent);
+  color: var(--accent);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin: 20px auto 10px;
+  transition: background 150ms ease, color 150ms ease;
 }
 
+.AStarSearch:hover {
+  background: var(--accent);
+  color: #ffffff;
+}
+
+.winning {
+  margin-top: 8px;
+  color: var(--accent-dark);
+  font-weight: 700;
+}
 
 
 

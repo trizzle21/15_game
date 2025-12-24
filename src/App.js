@@ -49,11 +49,8 @@ class Board extends React.Component {
 
 
   AStarSearch(){
-    //TODO
     console.log("Feature in Progress");
   }
-
-
 
   checkIfWon(){
     var winning = [
@@ -109,7 +106,6 @@ class Board extends React.Component {
     }
     
   }
-
 
   shuffleBoxCount(array){
     var i; var temp; var val;
@@ -188,14 +184,8 @@ class Board extends React.Component {
         onClick={()=>this.AStarSearch()}
       > A* Search </div>
       <div className="winning">{this.state.won}</div>
-
-
     </div>
-
-
   )}
-
-
 }
 
 
