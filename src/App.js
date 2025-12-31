@@ -145,7 +145,7 @@ class Board extends React.Component {
   render() {
     return (
       <div className="Game">
-        <a href="/Projects">Return to Projects</a>
+        <a href="/projects">Return to Projects</a>
         <div className="Title">15 Puzzle</div>
         <div className="board">
           <div className="gameRow">
