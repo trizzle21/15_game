@@ -69,7 +69,9 @@
   color: #f8fafc;
   box-shadow: 0 10px 20px var(--tile-shadow);
   cursor: pointer;
-  transition: transform 120ms ease, box-shadow 120ms ease;
+  transition:
+    transform 120ms ease,
+    box-shadow 120ms ease;
 }
 
 .Box:hover {
@@ -100,6 +102,3 @@
   color: var(--accent-dark);
   font-weight: 700;
 }
-
-
-
